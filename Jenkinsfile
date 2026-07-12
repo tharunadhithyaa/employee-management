@@ -97,7 +97,7 @@ pipeline {
 
                 // Wait a few seconds for services to initialize
                 echo '⏳ Waiting 10 seconds for services to initialize...'
-                bat 'sleep 10'
+                bat 'timeout /t 10 /nobreak'
             }
         }
 
