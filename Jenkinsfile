@@ -56,7 +56,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '🔨 Stage 2: Building Docker images for all services...'
-                sh 'docker compose build --no-cache'
+                bat 'docker compose build --no-cache'
                 echo '✅ All Docker images built successfully!'
             }
         }
@@ -69,7 +69,7 @@ pipeline {
                 echo '🛑 Stage 3: Stopping any existing containers...'
                 // "|| true" ensures the pipeline doesn't fail
                 // if no containers are running
-                sh 'docker compose down --remove-orphans || true'
+                bat 'docker compose down --remove-orphans || true'
                 echo '✅ Existing containers stopped!'
             }
         }
@@ -80,7 +80,7 @@ pipeline {
         stage('Docker Compose Build') {
             steps {
                 echo '🏗️  Stage 4: Running Docker Compose build...'
-                sh 'docker compose build'
+                bat 'docker compose build'
                 echo '✅ Docker Compose build complete!'
             }
         }
@@ -92,12 +92,12 @@ pipeline {
             steps {
                 echo '🚀 Stage 5: Starting all services with Docker Compose...'
                 // -d runs containers in detached (background) mode
-                sh 'docker compose up -d'
+                bat 'docker compose up -d'
                 echo '✅ All services started!'
 
                 // Wait a few seconds for services to initialize
                 echo '⏳ Waiting 10 seconds for services to initialize...'
-                sh 'sleep 10'
+                bat 'sleep 10'
             }
         }
 
@@ -109,10 +109,10 @@ pipeline {
                 echo '🔍 Stage 6: Verifying all containers are running...'
 
                 // List all running containers
-                sh 'docker compose ps'
+                bat 'docker compose ps'
 
                 // Check that the API health endpoint responds
-                sh '''
+                bat '''
                     echo "Testing API health endpoint..."
                     curl -f http://localhost/api/health || echo "⚠️  API not ready yet (may need more time)"
                 '''
@@ -154,7 +154,7 @@ pipeline {
         failure {
             echo '❌ Pipeline failed! Check the logs above for details.'
             // Optionally stop containers on failure to clean up
-            sh 'docker compose down || true'
+            bat 'docker compose down || true'
         }
         always {
             echo '📋 Pipeline execution finished.'
