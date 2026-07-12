@@ -1,0 +1,22 @@
+# ============================================================
+# .gitignore — Employee Management System
+# ============================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Docker volumes (local data)
+mongo-data/
