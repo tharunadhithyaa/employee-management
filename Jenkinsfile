@@ -69,7 +69,7 @@ pipeline {
                 echo '🛑 Stage 3: Stopping any existing containers...'
                 // "|| true" ensures the pipeline doesn't fail
                 // if no containers are running
-                bat 'docker compose down --remove-orphans || true'
+                bat 'docker compose down --remove-orphans'
                 echo '✅ Existing containers stopped!'
             }
         }
@@ -97,7 +97,7 @@ pipeline {
 
                 // Wait a few seconds for services to initialize
                 echo '⏳ Waiting 10 seconds for services to initialize...'
-                bat 'timeout /t 10 /nobreak'
+                bat 'ping 127.0.0.1 -n 11 > nul'
             }
         }
 
@@ -154,7 +154,7 @@ pipeline {
         failure {
             echo '❌ Pipeline failed! Check the logs above for details.'
             // Optionally stop containers on failure to clean up
-            bat 'docker compose down || true'
+            bat 'docker compose down'
         }
         always {
             echo '📋 Pipeline execution finished.'
